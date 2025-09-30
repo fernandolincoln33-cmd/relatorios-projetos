@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Levantamento de Equipamentos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 300px;
+        }
+        .print-button {
+            transition: all 0.3s ease;
+        }
+        .print-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .logo-placeholder {
+            border: 2px dashed #9CA3AF;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: #F9FAFB;
+        }
+        #logo-preview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Estilos para Impressão */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print {
+                display: none !important;
+            }
+            main {
+                padding: 0;
+                margin: 0;
+                box-shadow: none;
+                border: none;
+            }
+            .page-break {
+                page-break-after: always;
+            }
+            .section-card {
+                box-shadow: none;
+                border: 1px solid #e5e7eb;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <main class="max-w-4xl mx-auto p-6 md:p-10 bg-white my-8 rounded-lg shadow-xl">
+        
+        <!-- Cabeçalho com Logo e Título -->
+        <header class="flex flex-col md:flex-row justify-between items-center mb-10 pb-6 border-b border-gray-200">
+            <div class="text-center md:text-left">
+                <h1 class="text-3xl font-bold text-green-700">Levantamento de Ativos de TI</h1>
+                <p class="text-gray-500 mt-1">Proposta de Atualização de Parque Tecnológico</p>
+            </div>
+            <div class="mt-6 md:mt-0 no-print">
+                <label for="logo-upload" class="logo-placeholder">
+                    <img id="logo-preview" src="" alt="Logo da Empresa" class="hidden">
+                    <span id="logo-text" class="text-gray-400 text-center text-sm p-2">Clique para carregar o logo</span>
+                </label>
+                <input type="file" id="logo-upload" class="hidden" accept="image/*">
+            </div>
+             <div class="hidden print:block">
+                <img id="logo-print" src="" alt="Logo da Empresa" class="max-w-[120px] max-h-[120px]">
+            </div>
+        </header>
+
+        <!-- Seção 1: Análise Quantitativa -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-green-600 mb-6 pb-2 border-b-2 border-green-200">Análise Quantitativa de Equipamentos</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <!-- Gráfico de Desktops -->
+                <div class="section-card bg-gray-50 p-6 rounded-lg shadow-md text-center">
+                    <h3 class="text-xl font-semibold mb-4">Status dos Desktops (Total: 99)</h3>
+                    <div class="chart-container mx-auto">
+                        <canvas id="desktopsChart"></canvas>
+                    </div>
+                </div>
+                <!-- Detalhes Desktops -->
+                <div class="text-sm">
+                    <h4 class="font-bold text-lg mb-2">Desktops</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong class="text-red-600">96 necessitam de atualização técnica.</strong>
+                            <ul class="list-['-_'] list-inside ml-4 text-xs text-gray-600">
+                                <li>81 com contrato vencendo em 01/04/2026.</li>
+                                <li>10 com contrato vencendo em 08/04/2026.</li>
+                                <li>2 com contrato vencendo em 13/04/2026.</li>
+                                <li>2 com contrato vencendo em 06/05/2026.</li>
+                                <li>1 com contrato vencendo em 28/01/2029.</li>
+                            </ul>
+                        </li>
+                        <li><strong class="text-green-600">3 não necessitam de troca.</strong>
+                            <ul class="list-['-_'] list-inside ml-4 text-xs text-gray-600">
+                                <li>Contratos vencendo em 28/01/2029 e 31/01/2029.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center mt-10">
+                <!-- Gráfico de Notebooks -->
+                <div class="section-card bg-gray-50 p-6 rounded-lg shadow-md text-center">
+                    <h3 class="text-xl font-semibold mb-4">Status dos Notebooks (Total: 25)</h3>
+                    <div class="chart-container mx-auto">
+                        <canvas id="notebooksChart"></canvas>
+                    </div>
+                </div>
+                <!-- Detalhes Notebooks -->
+                <div class="text-sm">
+                    <h4 class="font-bold text-lg mb-2">Notebooks</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong class="text-red-600">23 necessitam de atualização técnica.</strong>
+                             <ul class="list-['-_'] list-inside ml-4 text-xs text-gray-600">
+                                <li>21 com contrato vencendo em 01/04/2026.</li>
+                                <li>2 com contrato vencendo em 05/04/2027.</li>
+                            </ul>
+                        </li>
+                        <li><strong class="text-green-600">2 não necessitam de troca.</strong>
+                             <ul class="list-['-_'] list-inside ml-4 text-xs text-gray-600">
+                                <li>Contratos vencendo em 29/01/2028 e 27/02/2028.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="page-break"></div>
+
+        <!-- Seção 2: Recomendações de Atualização -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-green-600 mb-6 pb-2 border-b-2 border-green-200">Recomendações de Atualização</h2>
+            
+            <div class="space-y-8">
+                <!-- Desktops -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Desktops (96 unidades para troca)</h3>
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="section-card bg-gray-50 p-6 rounded-lg shadow-md text-center">
+                            <h4 class="font-semibold mb-4">Distribuição por Processador</h4>
+                             <div class="chart-container mx-auto">
+                                <canvas id="desktopsSpecsChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="space-y-3 text-sm">
+                            <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                                <p><strong>78x Core i3 e 16x Core i5:</strong></p>
+                                <p class="text-gray-600">Atualizar para Intel Core 10ª Geração (ou superior), 8GB RAM e SSD de 256GB para compatibilidade com Windows 11.</p>
+                            </div>
+                             <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                                <p><strong>1x Core i7:</strong></p>
+                                <p class="text-gray-600">Atualizar para Intel Core 10ª Geração (ou superior), 16GB RAM e manter SSD de 500GB.</p>
+                            </div>
+                             <div class="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                                <p><strong>1x Workstation HP (Xeon):</strong></p>
+                                <p class="text-gray-600">Substituir por <strong>Notebook</strong> com configuração equivalente: Intel Core i7 10ª Geração (ou sup.), 32GB RAM e SSD de 1TB para melhorar a ergonomia e garantir compatibilidade.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notebooks -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 mt-8">Notebooks (23 unidades para troca)</h3>
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                         <div class="section-card bg-gray-50 p-6 rounded-lg shadow-md text-center">
+                             <h4 class="font-semibold mb-4">Distribuição por Processador</h4>
+                             <div class="chart-container mx-auto">
+                                <canvas id="notebooksSpecsChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="space-y-3 text-sm">
+                            <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                                <p><strong>18x Core i5:</strong></p>
+                                <p class="text-gray-600">Atualizar para Intel Core 10ª Geração (ou superior), 8GB RAM e SSD de 256GB.</p>
+                            </div>
+                             <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                                <p><strong>5x Core i7 (com GPU dedicada):</strong></p>
+                                 <ul class="list-disc list-inside text-gray-600">
+                                     <li><strong>3 unidades (Latitude/Lenovo):</strong> Atualizar para Intel Core 10ª Geração (ou sup.), padronizar com 16GB RAM e manter GPU dedicada.</li>
+                                      <li><strong>2 unidades (Dell G7):</strong> Atualizar para Intel Core 10ª Geração (ou sup.), manter 32GB RAM, SSD de 1TB e GPU dedicada de 4GB.</li>
+                                 </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção 3: Observações Adicionais -->
+        <section>
+             <h2 class="text-2xl font-bold text-green-600 mb-6 pb-2 border-b-2 border-green-200">Observações Adicionais e Próximos Passos</h2>
+             <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 text-sm space-y-3">
+                 <p><strong class="font-semibold">Flexibilidade na Troca:</strong> Há flexibilidade para trocar apenas a CPU (gabinete) dos desktops, mantendo periféricos, caso seja viável. A troca do kit completo (CPU, monitor, etc.) também é uma opção.</p>
+                 <p><strong class="font-semibold">Inventário de Monitores:</strong> O levantamento aponta 100 monitores para 99 desktops, indicando um monitor sobressalente.</p>
+                 <p><strong class="font-semibold">Planejamento de Lotes:</strong> Um levantamento posterior será realizado para mapear a localização de cada equipamento. O objetivo é organizar a substituição em lotes por endereço de instalação durante os meses de Outubro, Novembro e Dezembro.</p>
+             </div>
+        </section>
+
+        <!-- Botão de Impressão -->
+        <footer class="text-center mt-12 pt-6 border-t border-gray-200 no-print">
+            <button onclick="window.print()" class="print-button bg-green-600 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-green-700">
+                Imprimir Relatório
+            </button>
+        </footer>
+
+    </main>
+
+    <script>
+        // Lógica para carregar o logo
+        const logoUpload = document.getElementById('logo-upload');
+        const logoPreview = document.getElementById('logo-preview');
+        const logoPrint = document.getElementById('logo-print');
+        const logoText = document.getElementById('logo-text');
+
+        logoUpload.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    logoPreview.src = e.target.result;
+                    logoPrint.src = e.target.result;
+                    logoPreview.classList.remove('hidden');
+                    logoText.classList.add('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Configuração dos Gráficos
+        document.addEventListener('DOMContentLoaded', () => {
+            const chartColors = {
+                red: 'rgba(239, 68, 68, 0.8)',
+                green: 'rgba(16, 185, 129, 0.8)',
+                hoverRed: 'rgba(220, 38, 38, 1)',
+                hoverGreen: 'rgba(5, 150, 105, 1)',
+                blue: 'rgba(59, 130, 246, 0.8)',
+                yellow: 'rgba(234, 179, 8, 0.8)',
+                purple: 'rgba(139, 92, 246, 0.8)',
+                hoverBlue: 'rgba(37, 99, 235, 1)',
+                hoverYellow: 'rgba(202, 138, 4, 1)',
+                hoverPurple: 'rgba(124, 58, 237, 1)'
+            };
+            
+            const defaultOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            };
+
+            // Gráfico de Desktops Status
+            new Chart(document.getElementById('desktopsChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Necessitam Atualização', 'Não Necessitam'],
+                    datasets: [{
+                        label: 'Status Desktops',
+                        data: [96, 3],
+                        backgroundColor: [chartColors.red, chartColors.green],
+                        borderColor: '#F9FAFB',
+                        borderWidth: 2,
+                        hoverBackgroundColor: [chartColors.hoverRed, chartColors.hoverGreen]
+                    }]
+                },
+                options: defaultOptions
+            });
+
+            // Gráfico de Notebooks Status
+            new Chart(document.getElementById('notebooksChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Necessitam Atualização', 'Não Necessitam'],
+                    datasets: [{
+                        label: 'Status Notebooks',
+                        data: [23, 2],
+                        backgroundColor: [chartColors.red, chartColors.green],
+                        borderColor: '#F9FAFB',
+                        borderWidth: 2,
+                        hoverBackgroundColor: [chartColors.hoverRed, chartColors.hoverGreen]
+                    }]
+                },
+                options: defaultOptions
+            });
+            
+            // Gráfico de Desktops Specs
+            new Chart(document.getElementById('desktopsSpecsChart'), {
+                type: 'pie',
+                data: {
+                    labels: ['Core i3', 'Core i5', 'Core i7', 'Workstation Xeon'],
+                    datasets: [{
+                        label: 'Processadores Desktop',
+                        data: [78, 16, 1, 1],
+                        backgroundColor: [chartColors.blue, chartColors.green, chartColors.purple, chartColors.yellow],
+                        borderColor: '#F9FAFB',
+                        borderWidth: 2,
+                        hoverBackgroundColor: [chartColors.hoverBlue, chartColors.hoverGreen, chartColors.hoverPurple, chartColors.hoverYellow]
+                    }]
+                },
+                options: defaultOptions
+            });
+
+            // Gráfico de Notebooks Specs
+            new Chart(document.getElementById('notebooksSpecsChart'), {
+                type: 'pie',
+                data: {
+                    labels: ['Core i5', 'Core i7'],
+                    datasets: [{
+                        label: 'Processadores Notebook',
+                        data: [18, 5],
+                        backgroundColor: [chartColors.blue, chartColors.green],
+                        borderColor: '#F9FAFB',
+                        borderWidth: 2,
+                        hoverBackgroundColor: [chartColors.hoverBlue, chartColors.hoverGreen]
+                    }]
+                },
+                options: defaultOptions
+            });
+        });
+    </script>
+
+</body>
+</html>
